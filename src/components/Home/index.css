@@ -1,0 +1,99 @@
+.home-page-bgcontainer{
+    height: 100vh;
+    background-color: rgb(151, 253, 151);
+}
+.home-bg-black{
+    height: 100vh;
+   background-color: black;
+}
+.wheather-bgcontainer{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.nav{
+    background-color: rgb(248, 248, 79);
+    padding: 2px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+.nav-color{
+    background-color: rgb(29, 28, 28);
+    color: white;
+}
+.input{
+    padding: 6px;
+    border: none;
+    outline: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+@media screen and (min-width: 756px) {
+    .input{
+        padding: 13px;
+    }
+}
+.search-button{
+    border: none;
+    outline: none;
+    padding: 6px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+@media screen and (min-width: 756px) {
+    .search-button{
+        padding: 13px;
+    }
+}
+.nav-heading{
+    font-family: "Roboto";
+    margin-left: 10px;
+}
+
+.searchbar-container{
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
+}
+.card{
+    border-radius: 10px;
+    box-shadow: 0px 1px 16px 0px;
+    padding: 10px;
+    background-color: white;
+}
+@media screen and (min-width: 756px) {
+    .card{
+        width: 500px;
+        margin-top: 30px;
+        padding-left: 30px;
+    }
+}
+.current-location{
+    color: rgb(126, 126, 228);
+}
+.temperature{
+    color: rgb(103, 230, 103);
+}
+.datetime{
+    color: rgb(250, 140, 158);
+}
+.figers{
+   color: black;
+}
+
+.switch-button{
+    padding: 9px;
+    border-radius: 2px;
+    border: none;
+}
