@@ -9,8 +9,8 @@ const apiStatusConstants = {
 }
 
 const indianCities = [
-  { id: 1, value: 'delhi2', label: 'Delhi' },
-  { id: 2, value: 'mumbai2', label: 'Mumbai' },
+  { id: 1, value: 'delhi', label: 'Delhi' },
+  { id: 2, value: 'mumbai', label: 'Mumbai' },
   { id: 3, value: 'bangalore', label: 'Bangalore' },
   { id: 4, value: 'hyderabad', label: 'Hyderabad' },
   { id: 5, value: 'chennai', label: 'Chennai' },
