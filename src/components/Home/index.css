@@ -1,20 +1,35 @@
-.home-page-bgcontainer{
-    height: 100vh;
-    background-color: rgb(151, 253, 151);
+
+.home-page-bgcontainer {
+    min-height: 100vh;
+    background-color: rgb(239, 250, 250)
+
 }
-.home-bg-black{
-    height: 100vh;
-   background-color: black;
+
+.home-bg-black {
+    min-height: 100vh;
+    background-color: black;
 }
 .wheather-bgcontainer{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-self: center;
+    justify-content: center;
     align-items: center;
-    margin-top: 20px;
 }
-.nav{
-    background-color: rgb(248, 248, 79);
+@media screen and (min-width: 756px) {
+    .wheather-bgcontainer {
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+    
+}
+::-webkit-scrollbar{
+    display: none;
+}
+
+.nav {
+    background-color: rgb(165, 231, 240);
     padding: 2px;
     margin-bottom: 30px;
     display: flex;
@@ -24,76 +39,155 @@
     padding-right: 10px;
 
 }
-.nav-color{
+
+.nav-color {
     background-color: rgb(29, 28, 28);
     color: white;
 }
-.input{
+
+.input {
     padding: 6px;
     border: none;
     outline: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
+
 @media screen and (min-width: 756px) {
-    .input{
+    .input {
         padding: 13px;
     }
 }
-.search-button{
+
+.search-button {
     border: none;
     outline: none;
     padding: 6px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
 @media screen and (min-width: 756px) {
-    .search-button{
+    .search-button {
         padding: 13px;
     }
 }
-.nav-heading{
+
+.nav-heading {
     font-family: "Roboto";
     margin-left: 10px;
 }
 
-.searchbar-container{
+.searchbar-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+
 }
 
-.search-bar{
+.search-bar {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 290px;
+    position: relative;
 }
-.card{
+
+.card {
+    width: 270px;
     border-radius: 10px;
     box-shadow: 0px 1px 16px 0px;
     padding: 10px;
     background-color: white;
+    margin-top: 10px;
 }
+
 @media screen and (min-width: 756px) {
-    .card{
-        width: 500px;
+    .card {
+        width: 300px;
         margin-top: 30px;
         padding-left: 30px;
     }
 }
-.current-location{
+
+.current-location {
     color: rgb(126, 126, 228);
 }
-.temperature{
+
+.temperature {
     color: rgb(103, 230, 103);
 }
-.datetime{
-    color: rgb(250, 140, 158);
+
+.datetime {
+    color: red;
+
 }
-.figers{
-   color: black;
+.text {
+    color: #777;
+
+}
+.figers {
+    color: black;
 }
 
-.switch-button{
+.switch-button {
     padding: 9px;
     border-radius: 2px;
     border: none;
+}
+
+.search-dropdown {
+    list-style-type: none;
+    padding: 5px;
+    max-height: 200px;
+    overflow-y: scroll;
+    width: 280px;
+    position: absolute;
+    left: 2%;
+    background-color: rgb(250, 220, 243);
+    border-radius: 5px;
+    box-shadow: 0px 0px 4px #ddd;
+
+}
+@media screen and (min-width:576px) {
+    .search-dropdown{
+        left: 41%;
+    }
+}
+
+.city-option {
+    margin-bottom: 1px;
+    padding: 1px;
+    border-radius: 3px;
+}
+
+.city-option:hover {
+    background-color: rgb(240, 186, 85);
+}
+
+.multi-city-names {
+    border-radius: 5px;
+    padding: 10px;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+    background-color: #ddd;
+    width: 90%;
+}
+.citi{
+    border-radius: 3px;
+    background-color: aliceblue;
+    border: none;
+    padding: 4px;
+    color: #777;
+}
+.remove-button{
+    margin-left: 9px;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
 }
