@@ -689,7 +689,8 @@ const Home = () => {
   useEffect(() => {
     const renderWheatherInfoData  = async () => {
       const responses = await Promise.allSettled(serachInput.map(async (search) => {
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${"e6a96b4edfdee01e9b54917f79d9ca39"}`)
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${"e6a96b4edfdee01e9b54917f79d9ca39"}&units=metric
+`)
         const resData = await res.json()
         return resData
       }))
@@ -718,23 +719,23 @@ const Home = () => {
 
   const renderSuccessView = () => {
     const {data} = apiResponse
+    console.log(data)
     const CurrentDateTime = new Date()
-    
     return (<>
       {data.map((each,index) => {
         if(each.cod === 200){
 
            return <div className="card" key={index}>
            <p className="figers"> Current location:  <span className="current-location">{each.name}</span></p>
-           <p className="figers"> Temperature:  <span className="temperature">{(Math.abs(each.main.temp - 273.15)).toFixed(2)}</span> </p>
+           <p className="figers"> Temperature:  <span className="temperature">{(each.main.temp)} {"  "}  Degrees</span> </p>
            <p className="figers"> Date and time:  <span className="datetime">{CurrentDateTime.toLocaleString()}</span> </p>
            <p className="figers"> Humidity:  <span className="text">{each.main.humidity}%</span> </p>
-           <p className="figers"> Wind Speed:  <span className="text">{each.wind.speed}</span> </p>
+           <p className="figers"> Wind Speed:  <span className="text">{each.wind.speed} {"  "} meter/sec	</span> </p>
       </div>
         }
         return <div className="card" key={each.index} >
                <p>*{each.message}*</p> 
-               <p>Sorry We no data for this Location.</p>
+               <p>Sorry We have no data for this Location.</p>
         </div>
       })}
       
@@ -767,19 +768,29 @@ const Home = () => {
   }
 
   const onClickSearch = () => {
-       setSearchInput(multipleCityNames)
+    
+       if (userInput.length > 2){
+        setSearchInput([...multipleCityNames,userInput])
+       }else{
+        setSearchInput(multipleCityNames)
+       }
+       
+       setSearchCity([])
+       setUserInput("")
   }
 
   const onChlickToggle = () => {
     setToggle((prevState) => (!prevState))
   }
   const  addingCityNames = (event) => {
-     console.log(event.target.value)
      const uniqueCityNames = multipleCityNames.find((each) => each === event.target.value)
      if (uniqueCityNames === undefined){
         setMultipleCityNames((prevState) => [...prevState,event.target.value])
      }
      setUserInput("")
+     document.getElementById("inputField").focus()
+     setSearchCity([])
+     
   }
   const onClickRemoveCity = (event) => {
       const filterdedCities = multipleCityNames.filter((city) => city !== event.target.value)
@@ -795,11 +806,11 @@ const Home = () => {
     <div className="searchbar-container">
      {multipleCityNames.length > 0 && <ul className="multi-city-names">{multipleCityNames.map((cities,index) => <li className="citi" key={index}> {cities.toUpperCase()}<button className="remove-button" type="button" value={cities} onClick={onClickRemoveCity}>X</button></li>)}</ul>}
       <div className="search-bar">
-        <input className="input" value={userInput}  onChange={onChangeUserInput} type="text" placeholder="Serach your city name" />
+        <input className="input" id="inputField" value={userInput}  onChange={onChangeUserInput} type="text" placeholder="Serach your city name" />
         <button onClick={onClickSearch} className="search-button">Search</button>
       </div>
     </div>
-    {userInput.length > 0 && <ul className="search-dropdown">{citySearch.map((eachName,index) => <li key={index} className="city-option"><button type="button" onClick={addingCityNames}  value={eachName.value}>{eachName.label}</button></li>)}</ul>}
+    {citySearch.length > 0 && <ul className="search-dropdown">{citySearch.map((eachName,index) => <li key={index} className="city-option"><button type="button"  onClick={addingCityNames} className="responseDataModification" value={eachName.value}>{eachName.label}</button></li>)}</ul>}
     <div className="wheather-bgcontainer">
     {renderWheatherInfo()}
     </div>
