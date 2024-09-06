@@ -733,6 +733,7 @@ const Home = () => {
 
      const failure = () => {
        console.log("error")
+       alert("please location on")
      }
 
     navigator.geolocation.getCurrentPosition(success,failure,options)
