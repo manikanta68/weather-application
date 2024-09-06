@@ -672,7 +672,6 @@ const indianCities = [
 ]
 
 
-
 const Home = () => {
   const [apiResponse, setApiResponse] = useState({
     status: apiStatusConstants.initial,
@@ -689,7 +688,7 @@ const Home = () => {
   useEffect(() => {
     const renderWheatherInfoData  = async () => {
       const responses = await Promise.allSettled(serachInput.map(async (search) => {
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${"e6a96b4edfdee01e9b54917f79d9ca39"}&units=metric
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${process.env.REACT_APP_API_KEY}&units=metric
 `)
         const resData = await res.json()
         return resData
@@ -713,13 +712,34 @@ const Home = () => {
     renderWheatherInfoData()
   },[serachInput])
 
+  useEffect(() => {
+     const success = (positions) => {
+        const {latitude,longitude} = positions.coords
+        const getAddress = async () => {
+          const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}`
+          const response = await fetch(url)
+          const data = await response.json()
+          setSearchInput([data[0].name])
+        }
+
+        getAddress()
+     }
+
+     const failure = () => {
+       console.log("error")
+     }
+
+    navigator.geolocation.getCurrentPosition(success,failure)
+  },[])
+
+
+
   const renderLoadingView = () => {
     return "Loading"
   }
 
   const renderSuccessView = () => {
     const {data} = apiResponse
-    console.log(data)
     const CurrentDateTime = new Date()
     return (<>
       {data.map((each,index) => {
