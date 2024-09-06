@@ -713,6 +713,12 @@ const Home = () => {
   },[serachInput])
 
   useEffect(() => {
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+    
      const success = (positions) => {
         const {latitude,longitude} = positions.coords
         const getAddress = async () => {
@@ -729,8 +735,8 @@ const Home = () => {
        console.log("error")
      }
 
-    navigator.geolocation.getCurrentPosition(success,failure)
-  },[])
+    navigator.geolocation.getCurrentPosition(success,failure,options)
+  })
 
 
 
