@@ -686,6 +686,43 @@ const Home = () => {
   const [multipleCityNames,setMultipleCityNames] = useState([])
 
   useEffect(() => {
+    // const options = {
+    //   enableHighAccuracy: true,
+    //   timeout: 5000,
+    //   maximumAge: 0,
+    // };
+     
+     const success = (positions) => {
+        const {latitude,longitude} = positions.coords
+        
+        const getAddress = async () => {
+          console.log("caallllllllling")
+          const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}`
+          const response = await fetch(url)
+          const data = await response.json()
+          setSearchInput([data[0].name])
+          console.log(data[0].name)
+        }
+
+        getAddress()
+     }
+
+     const failure = () => {
+       console.log("Unable to retrieve your location")
+     }
+
+     if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(success,failure)
+     }else{
+      console.log("Geolocation is not supproted by your broswer")
+     }
+
+    
+  },[])
+
+  
+  
+  useEffect(() => {
     const renderWheatherInfoData  = async () => {
       const responses = await Promise.allSettled(serachInput.map(async (search) => {
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${process.env.REACT_APP_API_KEY}&units=metric
@@ -712,33 +749,7 @@ const Home = () => {
     renderWheatherInfoData()
   },[serachInput])
 
-  useEffect(() => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-    
-     const success = (positions) => {
-        const {latitude,longitude} = positions.coords
-        const getAddress = async () => {
-          const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}`
-          const response = await fetch(url)
-          const data = await response.json()
-          setSearchInput([data[0].name])
-        }
-
-        getAddress()
-     }
-
-     const failure = () => {
-       console.log("error")
-       alert("please location on")
-     }
-
-    navigator.geolocation.getCurrentPosition(success,failure,options)
-  })
-
+ 
 
 
   const renderLoadingView = () => {
