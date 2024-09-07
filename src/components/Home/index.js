@@ -714,11 +714,6 @@ const Home = () => {
   },[serachInput])
 
   useEffect(() => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 1000,
-      maximumAge: 0,
-    };
      
      const success = (positions) => {
         const {latitude,longitude} = positions.coords
@@ -739,11 +734,9 @@ const Home = () => {
        console.log("Unable to retrieve your location")
      }
 
-     if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(success,failure,options)
-     }else{
-      console.log("Geolocation is not supproted by your broswer")
-     }
+    
+    navigator.geolocation.getCurrentPosition(success,failure)
+  
 
     
   },[])
