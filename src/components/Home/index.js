@@ -680,7 +680,7 @@ const Home = () => {
   })
 
   const [userInput , setUserInput] = useState("")
-  const [serachInput,setSearchInput] = useState(["Hyderabad"])
+  const [serachInput,setSearchInput] = useState(["Hyderabad","mumbai","bangalore","chennai","kolkata"])
   const [toggle, setToggle] = useState(false)
   const [citySearch,setSearchCity] = useState([])
   const [multipleCityNames,setMultipleCityNames] = useState([])
