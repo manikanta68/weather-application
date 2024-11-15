@@ -108,33 +108,16 @@
     margin-top: 10px;
 }
 
-@media screen and (min-width: 756px) {
+@media screen and (min-width: 576px) {
     .card {
-        width: 300px;
+        width: max-content;
         margin-top: 30px;
-        padding-left: 30px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
 }
 
-.current-location {
-    color: rgb(126, 126, 228);
-}
-
-.temperature {
-    color: rgb(103, 230, 103);
-}
-
-.datetime {
-    color: red;
-
-}
-.text {
-    color: #777;
-
-}
-.figers {
-    color: black;
-}
 
 .switch-button {
     padding: 9px;
@@ -201,4 +184,134 @@
     border: none;
     background-color: transparent;
     text-align: left;
+}
+.temperature-container{
+    box-shadow: 1px 1px 4px #ddd;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    grid-area: one;
+}
+.temperature-container:hover{
+    transform: scale(1.05);
+}
+.temperature-icon{
+    font-size: 35px;
+}
+.temperature-heading{
+    font-family: "Roboto";
+    color: gray;
+    margin: 8px;
+}
+.temperature-indicator{
+    margin: 8px;
+}
+
+.humidity-container{
+    box-shadow: 1px 1px 4px #ddd;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    grid-area: two;
+}
+.humidity-container:hover{
+   transform: scale(1.05);
+}
+.humidity-icon{
+    font-size: 35px;
+}
+.humidity-heading{
+    font-family: "Roboto";
+    color: gray;
+    margin: 8px;
+}
+.humidity-indicator{
+    margin: 8px;
+}
+.wind-container{
+    box-shadow: 1px 1px 4px #ddd;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    grid-area: three;
+}
+@media screen and (min-width:576px) {
+    .wind-container{
+        flex-grow: 1;
+    }
+}
+.wind-container:hover{
+    transform: scale(1.05);
+}
+.wind-icon{
+    font-size: 30px;
+}
+.wind-heading{
+    font-family: "Roboto";
+    color: gray;
+    margin: 8px;
+}
+.wind-indicator{
+    margin: 8px;
+}
+.city-name-icon-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.city-name{
+    font-size: 20px;
+    margin-left: 9px;
+}
+@media  screen and (min-width: 576px) {
+    .city-name{
+       font-size: 25px;
+    }
+}
+.sun-symbol{
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+@media screen and (min-width:576px) {
+    .sun-symbol{
+        font-size: 60px;
+    }
+}
+.day-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(244, 247, 248);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+@media screen and (min-width:576px) {
+    .day-container{
+        height: 150px;
+        width: 250px;
+        display: flex;
+        justify-content: center;
+        
+    }
+}
+
+@media screen and (min-width:576px) {
+    .grid-colomns{
+        display: grid;
+        align-self: flex-start;
+        margin-left: 10px;
+        grid-template-columns: 150px 150px;
+        grid-template-rows: auto;
+        grid-template-areas: 
+        "one two"
+        "three three"
+        ;
+        
+    }
 }

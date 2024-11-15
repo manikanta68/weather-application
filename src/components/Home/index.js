@@ -1,7 +1,9 @@
-import { useState , useEffect } from "react"
+import { useState, useEffect } from "react"
 import { CiTempHigh } from "react-icons/ci";
 import { FiDroplet } from "react-icons/fi";
 import { FaWind } from "react-icons/fa";
+import { CiLocationOn } from "react-icons/ci";
+import { IoSunnyOutline } from "react-icons/io5";
 
 import "./index.css"
 
@@ -683,67 +685,68 @@ const Home = () => {
     errorMsg: null
   })
 
-  const [userInput , setUserInput] = useState("")
-  const [serachInput,setSearchInput] = useState(["Hyderabad","mumbai","bangalore","chennai","kolkata"])
+  const [userInput, setUserInput] = useState("")
+  const [serachInput, setSearchInput] = useState(["Hyderabad", "mumbai", "bangalore", "chennai", "kolkata"])
   const [toggle, setToggle] = useState(false)
-  const [citySearch,setSearchCity] = useState([])
-  const [multipleCityNames,setMultipleCityNames] = useState([])
+  const [citySearch, setSearchCity] = useState([])
+  const [multipleCityNames, setMultipleCityNames] = useState([])
 
-  
+    
   useEffect(() => {
-    const renderWheatherInfoData  = async () => {
+  
+    const renderWheatherInfoData = async () => {
       const responses = await Promise.allSettled(serachInput.map(async (search) => {
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${process.env.REACT_APP_API_KEY}&units=metric
 `)
         const resData = await res.json()
         return resData
       }))
-      if(responses.length > 0 ){
+      if (responses.length > 0) {
         const responseDataModification = responses.map((each) => each.value)
         setApiResponse((prevApiResponse) => ({
           ...prevApiResponse,
           status: apiStatusConstants.success,
           data: responseDataModification
         }))
-      }else{
+      } else {
         setApiResponse((prevApiResponse) => ({
           ...prevApiResponse,
           status: apiStatusConstants.failure,
         }))
-      
+
       }
       setMultipleCityNames([])
     }
     renderWheatherInfoData()
-  },[serachInput])
+  }, [serachInput])
 
-  useEffect(() => {
-     
-     const success = (positions) => {
-        const {latitude,longitude} = positions.coords
-        
-        const getAddress = async () => {
-          const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}`
-          const response = await fetch(url)
-          const data = await response.json()
-          console.log(latitude,longitude)
-          setSearchInput([data[0].name])
-          console.log(data[0].name)
-        }
-
-        getAddress()
-     }
-
-     const failure = () => {
-       console.log("Unable to retrieve your location")
-     }
-
-    
-    navigator.geolocation.getCurrentPosition(success,failure)
   
+  useEffect(() => {
 
-    
-  },[])
+    const success = (positions) => {
+      const { latitude, longitude } = positions.coords
+      const getAddress = async () => {
+        const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_API_KEY}`
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log(latitude, longitude)
+        setSearchInput([data[0].name])
+        console.log(data[0].name)
+      }
+
+      getAddress()
+    }
+
+    const failure = () => {
+      console.log("Unable to retrieve your location")
+    }
+
+
+    navigator.geolocation.getCurrentPosition(success, failure)
+
+
+
+  }, [])
 
 
 
@@ -752,38 +755,45 @@ const Home = () => {
   }
 
   const renderSuccessView = () => {
-    const {data} = apiResponse
+    const { data } = apiResponse
     const CurrentDateTime = new Date()
     return (<>
-      {data.map((each,index) => {
-        if(each.cod === 200){
+      {data.map((each, index) => {
+        if (each.cod === 200) {
 
-           return <div className="card" key={index}>
-           <p className="figers"> Current location:  <span className="current-location">{each.name}</span></p>
-           <div><CiTempHigh color="orange"/> <p className="figers"> Temperature  <span className="temperature">{(each.main.temp)} &deg; </span> </p></div>
-           <p className="figers"> Date and time:  <span className="datetime">{CurrentDateTime.toLocaleString()}</span> </p>
-          <div> <FiDroplet color="skyblue"/> <p className="figers"> Humidity  <span className="text">{each.main.humidity}%</span> </p></div>
-          <div><FaWind color="lightgray" /> <p className="figers"> Wind Speed  <span className="text">{each.wind.speed} {"  "} meter/sec	</span> </p></div>
-      </div>
+          return <div className="card" key={index}>
+            <div className="day-container">
+              <IoSunnyOutline color="orange" className="sun-symbol" />
+              <div className="city-name-icon-container">
+                <CiLocationOn /> <span className="city-name">{each.name}</span></div>
+            </div>
+
+            {/* <p className="figers">{CurrentDateTime.toLocaleString()} </p> */}
+            <div className="grid-colomns">
+            <div className="temperature-container"><CiTempHigh color="orange" className="temperature-icon" /> <div><p className="temperature-heading">Temperature</p>  <p className="temperature-indicator">{(each.main.temp)} &deg; </p> </div></div>
+            <div className="humidity-container"> <FiDroplet color="skyblue" className="humidity-icon" /> <div> <p className="humidity-heading"> Humidity </p> <p className="humidity-indicator">{each.main.humidity}%</p>  </div></div>
+            <div className="wind-container"><FaWind color="gray" className="wind-icon" /> <div> <p className="wind-heading"> Wind Speed</p> <p className="wind-indicator">{each.wind.speed} {"  "} meter/sec	</p> </div></div>
+            </div>
+          </div>
         }
         return <div className="card" key={each.index} >
-               <p>*{each.message}*</p> 
-               <p>Sorry We have no data for this Location.</p>
+          <p>*{each.message}*</p>
+          <p>Sorry We have no data for this Location.</p>
         </div>
       })}
-      
-      </>)
+
+    </>)
   }
 
   const renderFailureView = () => {
     return <div> <p>Please Enter A valid City name!!</p> </div>
   }
-  
+
   const renderWheatherInfo = () => {
     const { status } = apiResponse
     switch (status) {
       case apiStatusConstants.inProgress:
-        
+
         return renderLoadingView()
       case apiStatusConstants.success:
         return renderSuccessView()
@@ -794,60 +804,60 @@ const Home = () => {
     }
   }
 
-  const onChangeUserInput  = (event) => {
-      setUserInput(event.target.value)
-      const searchCityFilter = indianCities.filter((eachCity) => (eachCity.value.toLowerCase()).startsWith((event.target.value).toLowerCase()))
-      setSearchCity(searchCityFilter)
+  const onChangeUserInput = (event) => {
+    setUserInput(event.target.value)
+    const searchCityFilter = indianCities.filter((eachCity) => (eachCity.value.toLowerCase()).startsWith((event.target.value).toLowerCase()))
+    setSearchCity(searchCityFilter)
   }
 
   const onClickSearch = () => {
-    
-       if (userInput.length > 2){
-        setSearchInput([...multipleCityNames,userInput])
-       }else{
-        setSearchInput(multipleCityNames)
-       }
-       
-       setSearchCity([])
-       setUserInput("")
+
+    if (userInput.length > 2) {
+      setSearchInput([...multipleCityNames, userInput])
+    } else {
+      setSearchInput(multipleCityNames)
+    }
+
+    setSearchCity([])
+    setUserInput("")
   }
 
   const onChlickToggle = () => {
     setToggle((prevState) => (!prevState))
   }
-  const  addingCityNames = (event) => {
-     const uniqueCityNames = multipleCityNames.find((each) => each === event.target.value)
-     if (uniqueCityNames === undefined){
-        setMultipleCityNames((prevState) => [...prevState,event.target.value])
-     }
-     setUserInput("")
-     document.getElementById("inputField").focus()
-     setSearchCity([])
-     
+  const addingCityNames = (event) => {
+    const uniqueCityNames = multipleCityNames.find((each) => each === event.target.value)
+    if (uniqueCityNames === undefined) {
+      setMultipleCityNames((prevState) => [...prevState, event.target.value])
+    }
+    setUserInput("")
+    document.getElementById("inputField").focus()
+    setSearchCity([])
+
   }
   const onClickRemoveCity = (event) => {
-      const filterdedCities = multipleCityNames.filter((city) => city !== event.target.value)
-      setMultipleCityNames(filterdedCities)
+    const filterdedCities = multipleCityNames.filter((city) => city !== event.target.value)
+    setMultipleCityNames(filterdedCities)
   }
-  
+
   return (<div className={toggle ? "home-bg-black" : "home-page-bgcontainer"}>
-    <nav className= {toggle ? "nav nav-color" : "nav"} >
-      <h1 className="nav-heading">Weather Information</h1> 
-      <button className="switch-button" onClick={onChlickToggle}> {toggle ? "Switch Light" : "Switch Dark" }</button>
+    <nav className={toggle ? "nav nav-color" : "nav"} >
+      <h1 className="nav-heading">Weather Information</h1>
+      <button className="switch-button" onClick={onChlickToggle}> {toggle ? "Switch Light" : "Switch Dark"}</button>
     </nav>
-    
+
     <div className="searchbar-container">
-     {multipleCityNames.length > 0 && <ul className="multi-city-names">{multipleCityNames.map((cities,index) => <li className="citi" key={index}> {cities.toUpperCase()}<button className="remove-button" type="button" value={cities} onClick={onClickRemoveCity}>X</button></li>)}</ul>}
+      {multipleCityNames.length > 0 && <ul className="multi-city-names">{multipleCityNames.map((cities, index) => <li className="citi" key={index}> {cities.toUpperCase()}<button className="remove-button" type="button" value={cities} onClick={onClickRemoveCity}>X</button></li>)}</ul>}
       <div className="search-bar">
-        <input className="input" id="inputField" value={userInput}  onChange={onChangeUserInput} type="text" placeholder="Serach your city name" />
+        <input className="input" id="inputField" value={userInput} onChange={onChangeUserInput} type="text" placeholder="Serach your city name" />
         <button onClick={onClickSearch} className="search-button">Search</button>
       </div>
     </div>
-    {citySearch.length > 0 && <ul className="search-dropdown">{citySearch.map((eachName,index) => <li key={index} className="city-option"><button type="button"  onClick={addingCityNames} className="responseDataModification" value={eachName.value}>{eachName.label}</button></li>)}</ul>}
+    {citySearch.length > 0 && <ul className="search-dropdown">{citySearch.map((eachName, index) => <li key={index} className="city-option"><button type="button" onClick={addingCityNames} className="responseDataModification" value={eachName.value}>{eachName.label}</button></li>)}</ul>}
     <div className="wheather-bgcontainer">
-    {renderWheatherInfo()}
+      {renderWheatherInfo()}
     </div>
-    </div> )
+  </div>)
 }
 
 export default Home
