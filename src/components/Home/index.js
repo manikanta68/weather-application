@@ -1,4 +1,8 @@
 import { useState , useEffect } from "react"
+import { CiTempHigh } from "react-icons/ci";
+import { FiDroplet } from "react-icons/fi";
+import { FaWind } from "react-icons/fa";
+
 import "./index.css"
 
 const apiStatusConstants = {
@@ -756,10 +760,10 @@ const Home = () => {
 
            return <div className="card" key={index}>
            <p className="figers"> Current location:  <span className="current-location">{each.name}</span></p>
-           <p className="figers"> Temperature:  <span className="temperature">{(each.main.temp)} {"  "}  Degrees</span> </p>
+           <div><CiTempHigh color="orange"/> <p className="figers"> Temperature  <span className="temperature">{(each.main.temp)} &deg; </span> </p></div>
            <p className="figers"> Date and time:  <span className="datetime">{CurrentDateTime.toLocaleString()}</span> </p>
-           <p className="figers"> Humidity:  <span className="text">{each.main.humidity}%</span> </p>
-           <p className="figers"> Wind Speed:  <span className="text">{each.wind.speed} {"  "} meter/sec	</span> </p>
+          <div> <FiDroplet color="skyblue"/> <p className="figers"> Humidity  <span className="text">{each.main.humidity}%</span> </p></div>
+          <div><FaWind color="lightgray" /> <p className="figers"> Wind Speed  <span className="text">{each.wind.speed} {"  "} meter/sec	</span> </p></div>
       </div>
         }
         return <div className="card" key={each.index} >
